@@ -1,0 +1,6 @@
+解决：
+1.搜索“服务”
+2.找到Windows Modules Installer
+3.启动该服务
+
+3.1若该服务的启动、停止、暂停全都灰色无法点击，则参考“Windows Modules Installer启动、停止、暂停灰色无法点击.txt”
