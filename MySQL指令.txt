@@ -2,16 +2,18 @@
 【Docker——MySQL容器创建指令】
 【开启守护进程防止容器运行后立刻退出(/bin/bash-c ***须紧跟mysql:latest后面)】docker run -d --name mysql01 -p 3306:3306 mysql:latest /bin/bash -c "tail -f /var/log/mysqld.log"
 【本机持久化数据与配置文件】docker run --name mysql -p 3306:3306 -v /e/docker/mysql/data:/var/lib/mysql/ -v /e/docker/mysql/conf/my.cnf:/etc/mysql/my.cnf -e MYSQL_ROOT_PASSWORD=123456 -d mysql:latest --default-authentication-plugin=mysql_native_password
-【终】docker run -d --name mysql_latest -p 3306:3306 -v /d/WWD/Docker/Containers/mysql_latest/data:/var/lib/mysql/ -v /d/WWD/Docker/Containers/mysql_latest/conf/my.cnf:/etc/my.cnf -e MYSQL_ROOT_PASSWORD=123456 mysql:latest /bin/bash -c "tail -f /var/log/mysqld.log" --default-authentication-plugin=mysql_native_password 
-docker run -d --name mysql_latest01 -p 3306:3306 -v /d/WWD/Docker/Containers/mysql_latest01/data:/var/lib/mysql/ -v /d/WWD/Docker/Containers/mysql_latest01/conf/my.cnf:/etc/my.cnf -v /d/WWD/Docker/Containers/mysql_latest01/var/run/mysqld:/var/run/mysqld/ -e MYSQL_ROOT_PASSWORD=123456 mysql:latest /bin/bash -c "tail -f /var/log/mysqld.log" --default-authentication-plugin=mysql_native_password 
+【终】docker run -d --name mysql_latest -p 3306:3306 -v /d/WWD/Docker/Containers/mysql_latest/data:/var/lib/mysql/ -v /d/WWD/Docker/Containers/mysql_latest/conf/my.cnf:/etc/my.cnf -e MYSQL_ROOT_PASSWORD=123456 mysql:latest /bin/bash -c "tail -f /var/log/mysqld.log" --default-authentication-plugin=mysql_native_password
+docker run -d --name mysql_latest01 -p 3306:3306 -v /d/WWD/Docker/Containers/mysql_latest01/data:/var/lib/mysql/ -v /d/WWD/Docker/Containers/mysql_latest01/conf/my.cnf:/etc/my.cnf -v /d/WWD/Docker/Containers/mysql_latest01/var/run/mysqld:/var/run/mysqld/ -e MYSQL_ROOT_PASSWORD=123456 mysql:latest /bin/bash -c "tail -f /var/log/mysqld.log" --default-authentication-plugin=mysql_native_password
 
 docker run -it --name mysql-container -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -p 3307:3306 -nt -skip-grant-tables mysql:latest  /bin/bash
 ***************尝试历史***************
 
 
+【目前能用的】mysql-container
+
 
 【流程】
-run -it --name mysql-container -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -p 3307:3306 mysql:latest /bin/bash【以交互式方式进入容器】
+docker run -it --name mysql-container -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -p 3307:3306 mysql:latest /bin/bash【以交互式方式进入容器】
 mysqld --initialize【进行初始化initialize，从而防止容器闪退；会得到一个root用户的密码】
 mysqld【启动服务】
 mysql -u root -p【输入密码即可登录】
@@ -21,3 +23,17 @@ FLUSH PRIVILEGES;【刷新权限（不确定是否必要）】
 CREATE USER 'username'@'%' IDENTIFIED BY 'password';【创建用户】
 GRANT ALL PRIVILEGES ON *.* TO 'username'@'%';【授予权限（还有一种直接修改user表来改权限的，可见收藏夹）】
 FLUSH PRIVILEGES;【刷新权限（不确定是否必要）】
+
+
+
+【流程——持久化数据库配置文件及数据至本地】
+docker run -it --name mysql_challengecup -v /d/WWD/Docker/Containers/mysql_challengecup/data:/var/lib/mysql/ -v /d/WWD/Docker/Containers/mysql_challengecup/conf/my.cnf:/etc/my.cnf -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -p 3306:3306 mysql:latest /bin/bash【以交互式方式进入容器，同时使用-v指定配置文件及数据的挂载位置】
+mysqld --initialize【进行初始化initialize，从而防止容器闪退；会得到一个root用户的密码；可能会报错/var/lib/mysql路径下已存在数据，按要求清空即可】
+......【后续与【流程】相同】
+
+
+
+
+【报错记录】
+【my.cnf中开启了二进制日志“log-bin=mysql-bin”】执行mysqld后可能会出现文件找不到（无权限）的问题，使用指令“chgrp -R mysql /var/lib/mysql && chown -R mysql /var/lib/mysql”修改相应目录权限即可（https://blog.csdn.net/aidenliu/article/details/6586775）
+【my.cnf中开启了二进制日志“log-bin=mysql-bin”（推测）】执行mysqld后可能会出现Plugin mysqlx reported: 'Setup of socket: '/var/run/mysqld/mysqlx.sock' failed, can't open lock file /var/run/mysqld/mysqlx.sock.lock'的报错，同样使用指令“chgrp -R mysql /var/run/mysqld && chown -R mysql /var/run/mysqld”修改权限即可（自行尝试得出）
