@@ -1,0 +1,11 @@
+1.nvidia-smi检查版本要求
+2.官网获取下载命令（Installer Type选择runfile(local)比较方便）
+3.如果无sudo权限，通过--toolkitpath=~/CUDA/toolkit参数指定安装位置，防止写入到无权限的目录里
+4.注意若服务器不允许修改驱动，需要在交互界面中取消对Driver的安装。或者采用以下指令：sh ~/cuda_12.6.3_560.35.05_linux.run --silent --toolkit --toolkitpath=~/CUDA/toolkit --override
+其中，--slient表示不进行交互而是静默安装，--toolkit表示只安装CUDA toolkit而不会安装驱动和sample，--override表示跳过环境检查并强制安装 CUDA，无论系统是否符合安装要求
+5.安装完后记得设置环境变量并刷新
+
+参考自：
+1.https://zhuanlan.zhihu.com/p/21676609751
+2.https://blog.csdn.net/u013602059/article/details/121225915
+3.https://dev59.com/superuser/kEjSa4cB1Zd3GeqPFXA_
