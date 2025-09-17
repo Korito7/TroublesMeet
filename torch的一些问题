@@ -1,0 +1,1 @@
+有些项目直接使用pip安装torch可能会存在问题，例如DistillKit，最好还是去“https://pytorch.org/get-started/previous-versions/”官网下载
