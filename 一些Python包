@@ -2,4 +2,4 @@ torch
 有些项目直接使用pip安装torch可能会存在问题，例如DistillKit，最好还是去“https://pytorch.org/get-started/previous-versions/”官网下载
 
 flash_attn
-版本问题很严重，用过2.8的，因为Ubuntu系统的glibc版本问题而报错；2.7.4post1，从github的release中下载的历史版本whl文件，因为与torch、cuda等包的版本不匹配而报错（但经反复查看应该是匹配的）；2.7.1post4，直接在conda环境中pip，目前适配cuda12.6.3、py3.9.23和torch2.6
+需要先安装ninja。版本问题很严重，用过2.8的，因为Ubuntu系统的glibc版本问题而报错；2.7.4post1，从github的release中下载的历史版本whl文件，因为与torch、cuda等包的版本不匹配而报错（但经反复查看应该是匹配的）；2.7.1post4，直接在conda环境中pip，目前适配cuda12.6.3、py3.9.23和torch2.6
