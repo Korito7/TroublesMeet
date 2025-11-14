@@ -1,0 +1,4 @@
+****问题描述****：gcc链接不到CUDA
+现象：/usr/bin/ld: 当搜索用于 /usr/lib/i386-linux-gnu/libcuda.so 时跳过不兼容的 -lcuda
+/usr/bin/ld: 找不到 -lcuda
+解决：直接把现象描述给GPT，会被要求先检查libcuda.so和libcuda.so.1文件，随后根据情况解决。若so文件存在，基本就是在环境变量再配置一下so文件存在的路径以让gcc能够链接到即可。
