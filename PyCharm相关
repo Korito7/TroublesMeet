@@ -1,2 +1,7 @@
 1.远程运行代码时环境包更新不及时：
 双击shift，搜索并点击Rescan Available Python Modules and Packages
+
+2.pycharm运行的py文件在命令行中运行可能存在module not found的问题：
+可能的原因：有的导入是用from Main.a import a_fun，有的是用from a import a_fun，导入方式不一致。前者将Main视为顶层包（必须包含__init__.py），后者将Main视为普通目录。
+解决：（命令行运行指令示例）PYTHONPATH=~/PyProject/ProjectA/:~/PyProject/ProjectA/Main python main.py
+重点是“PYTHONPATH=~/PyProject/ProjectA/:~/PyProject/ProjectA/Main”，pycharm会默认设置勾选Add content roots to PYTHONPATH和Add source roots to PYTHONPATH，但是命令行需要自行设置，否则迁移时可能会报错。
