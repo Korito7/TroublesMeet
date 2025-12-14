@@ -5,3 +5,6 @@
 可能的原因：有的导入是用from Main.a import a_fun，有的是用from a import a_fun，导入方式不一致。前者将Main视为顶层包（必须包含__init__.py），后者将Main视为普通目录。
 解决：（命令行运行指令示例）PYTHONPATH=~/PyProject/ProjectA/:~/PyProject/ProjectA/Main python main.py
 重点是“PYTHONPATH=~/PyProject/ProjectA/:~/PyProject/ProjectA/Main”，pycharm会默认设置勾选Add content roots to PYTHONPATH和Add source roots to PYTHONPATH，但是命令行需要自行设置，否则迁移时可能会报错。
+
+3.本地代码无法同步到远程服务器
+在“Tools -> Deployment -> Configuration”中配置ssh的项目映射，随后在“Tools -> Deployment -> Options”中设置同步方式（Never、Always、Ctrl+S）
