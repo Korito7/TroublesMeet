@@ -3,6 +3,7 @@
 
 ****flash_attn****
 需要先安装ninja。版本问题很严重，用过2.8的，因为Ubuntu系统的glibc版本问题而报错；2.7.4post1，从github的release中下载的历史版本whl文件，因为与torch、cuda等包的版本不匹配而报错（但经反复查看应该是匹配的）；2.7.1post4，直接在conda环境中pip，目前适配cuda12.6.3、py3.9.23和torch2.6
+指令：pip install flash-attn==2.7.1post4 --no-build-isolation --no-cache-dir
 
 ****gptqmodel****
 不管是pip还是clone源码后安装，均报错：
