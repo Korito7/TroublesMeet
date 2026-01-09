@@ -2,3 +2,9 @@
 现象：/usr/bin/ld: 当搜索用于 /usr/lib/i386-linux-gnu/libcuda.so 时跳过不兼容的 -lcuda
 /usr/bin/ld: 找不到 -lcuda
 解决：直接把现象描述给GPT，会被要求先检查libcuda.so和libcuda.so.1文件，随后根据情况解决。若so文件存在，基本就是在环境变量再配置一下so文件存在的路径以让gcc能够链接到即可。
+基本流程是建立一个用户态目录，通过软链接接到64位的libcuda.so.1，将环境变量的LD_LIBRARY_PATH和LIBRARY_PATH设为该目录。
+例如(export部分可以直接在pycharm中设置环境变量，但不能用${LIBRARY_PATH}，直接把value设为目录的路径即可，注意最好不要在程序中通过os设置环境变量，因为进程启动时环境变量可能还未被更新)：
+mkdir -p cuda_lib64
+ln -sf /usr/lib/x86_64-linux-gnu/libcuda.so.1 ~/cuda_lib64/libcuda.so
+export LIBRARY_PATH=~/cuda_lib64:${LIBRARY_PATH}
+export LD_LIBRARY_PATH=~/cuda_lib64:${LD_LIBRARY_PATH}
