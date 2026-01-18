@@ -8,3 +8,10 @@ mkdir -p cuda_lib64
 ln -sf /usr/lib/x86_64-linux-gnu/libcuda.so.1 ~/cuda_lib64/libcuda.so
 export LIBRARY_PATH=~/cuda_lib64:${LIBRARY_PATH}
 export LD_LIBRARY_PATH=~/cuda_lib64:${LD_LIBRARY_PATH}
+
+****问题描述****：模型训练时进度条一致卡住不动，问题描述类似于https://github.com/QwenLM/Qwen/issues/945
+现象：使用trl库的SFTTrainer针对Qwen3-0.6B微调时，发现到了开始训练阶段进度条完全卡住
+解决：尝试直接推理发现是能正常推理的，且在另一个环境中，在未指定CUDA使用的卡的情况下SFTTrainer可以正常训练。
+从警告WARNING - Detected kernel version 5.4.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.尝试入手，发现以下链接：https://blog.csdn.net/qq_37430422/article/details/142054630
+按照链接所述，将CUDA_VISIBLE_DEVICES指定为单卡，发现可以正常训练。
+但是如果遇到单卡不足以训练的情况，若不升级kernel还是不知道该如何解决该问题。
